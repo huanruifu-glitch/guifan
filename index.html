@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f5fa8" />
+  <meta name="description" content="查询中国现行建筑规范：设计前期规定、通用规范与常用国标、施工图国标图集，含更新提醒。" />
+  <title>建筑规范查询</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">🏛️ 建筑规范查询</div>
+      <button id="installBtn" class="install-btn" hidden>⬇ 安装到桌面</button>
+      <button id="aboutBtn" class="install-btn">关于</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 搜索框 -->
+    <div class="search-box">
+      <input id="searchInput" type="search" placeholder="搜索规范名称或编号，如 抗震 / GB 55001" autocomplete="off" />
+      <button id="clearBtn" class="clear-btn" hidden aria-label="清除">×</button>
+    </div>
+
+    <!-- 更新提醒 -->
+    <section id="updateBanner" class="update-banner" hidden>
+      <div class="update-head">
+        <span class="update-title">🔔 规范更新提醒</span>
+        <span id="updateCount" class="update-count"></span>
+      </div>
+      <div id="updateList"></div>
+      <button id="markReadBtn" class="update-clear">我知道了，标记为已读</button>
+    </section>
+
+    <!-- 分类标签 -->
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-cat="design">常用规范</button>
+      <button class="tab" data-cat="assistant">图集助手</button>
+      <button class="tab" data-cat="city">城市规定</button>
+    </nav>
+
+    <!-- 二级分组筛选 -->
+    <div class="subfilter" id="subfilter"></div>
+
+    <!-- 结果计数 -->
+    <div class="result-meta" id="resultMeta"></div>
+
+    <!-- 列表 -->
+    <section id="list" class="list"></section>
+    <div id="empty" class="empty" hidden>没有找到相关规范，换个关键词试试</div>
+
+    <footer class="page-footer">
+      数据仅作索引与状态提示，规范正文请点条目内“查看官方原文”跳转权威来源。<br/>
+      以住建部及各地主管部门发布的最新版本为准 · 开源项目，欢迎贡献数据。
+    </footer>
+  </main>
+
+  <!-- 详情弹层 -->
+  <div id="detailMask" class="detail-mask" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true">
+      <button id="detailClose" class="detail-close" aria-label="关闭">×</button>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="topics.js"></script>
+  <script src="cities.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js').catch(function (e) {
+          console.log('SW 注册跳过（本地 file:// 打开时正常）', e);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
